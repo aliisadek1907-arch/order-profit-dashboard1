@@ -86,7 +86,13 @@ let orders=[],contractData=null,expenseCount=20;
 
 const SUPABASE_URL='https://kedmhpapipkcbvhlzdrg.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_7hE8OVkAHiXMbxnPulU3rg_haOempwb';
-const cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let cloudClient=null;
+try{
+ if(!window.supabase||typeof window.supabase.createClient!=='function') throw new Error('تعذر تحميل مكتبة الاتصال. حدّث الصفحة أو جرّب متصفح Chrome.');
+ cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+}catch(initError){
+ setTimeout(()=>{const m=document.getElementById('authMessage');if(m)m.textContent=initError.message;},0);
+}
 let cloudUser=null,cloudReady=false,cloudSaveTimer=null;
 function cloudMessage(msg){$('authMessage').textContent=msg}
 function cloudStatus(msg){$('cloudStatus').textContent=msg}
@@ -102,7 +108,7 @@ async function startCloudSession(user){
  cloudUser=user;
  $('authPanel').classList.add('hidden');$('dashboardApp').classList.remove('hidden');$('cloudBar').classList.remove('hidden');
  cloudStatus('جاري مزامنة البيانات...');
- const {data,error}=await cloudClient.from('woodex_data').select('data').eq('user_id',user.id).maybeSingle();
+ if(!cloudClient){cloudMessage('مكتبة Supabase لم تُحمّل. افتح الصفحة في Chrome وحدّثها.');return}\n const {data,error}=await cloudClient.from('woodex_data').select('data').eq('user_id',user.id).maybeSingle();
  if(error){cloudStatus('مشكلة في قراءة البيانات: '+error.message);return}
  const cloudOrders=Array.isArray(data?.data)?data.data:[];
  if(cloudOrders.length){
@@ -117,7 +123,7 @@ async function startCloudSession(user){
  render();
 }
 $('signInBtn').onclick=async()=>{
- const email=$('authEmail').value.trim(),password=$('authPassword').value;
+ if(!cloudClient){cloudMessage('مكتبة Supabase لم تُحمّل. افتح الصفحة في Chrome وحدّثها.');return}\n const email=$('authEmail').value.trim(),password=$('authPassword').value;
  if(!email||!password){cloudMessage('أدخل البريد الإلكتروني وكلمة المرور.');return}
  cloudMessage('جاري تسجيل الدخول...');
  const {data,error}=await cloudClient.auth.signInWithPassword({email,password});
@@ -135,7 +141,7 @@ $('signUpBtn').onclick=async()=>{
  else cloudMessage('تم إرسال رسالة تأكيد إلى بريدك الإلكتروني. أكّد الحساب ثم سجّل الدخول.');
 };
 $('signOutBtn').onclick=async()=>{await cloudClient.auth.signOut();cloudUser=null;cloudReady=false;$('dashboardApp').classList.add('hidden');$('cloudBar').classList.add('hidden');$('authPanel').classList.remove('hidden');cloudMessage('تم تسجيل الخروج.')};
-cloudClient.auth.getSession().then(async({data,error})=>{
+if(cloudClient)cloudClient.auth.getSession().then(async({data,error})=>{
  if(error){cloudMessage('تعذر التحقق من الجلسة: '+error.message);return}
  if(data.session)await startCloudSession(data.session.user);
  else cloudMessage('أدخل بيانات حساب WOODEX للبدء.');
