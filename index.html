@@ -1,1 +1,107 @@
-<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>لوحة الطلبات والأرباح</title><style>body{font:16px Tahoma;background:#f3f5fa;margin:30px;color:#182230}main{max-width:900px;margin:auto;background:white;padding:24px;border-radius:16px}button,input{padding:10px;margin:5px;border:1px solid #ccd;border-radius:8px}button{background:#3157d5;color:white}table{width:100%;margin-top:20px;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid #ddd;text-align:right}</style><main><h1>لوحة متابعة الطلبات والأرباح</h1><p>إدارة العملاء والدفعات وتكلفة التصنيع — جنيه مصري</p><form id="f"><input id="n" placeholder="اسم العميل" required><input id="m" placeholder="رقم الموبايل"><input id="t" placeholder="نوع الأوردر"><input id="v" type="number" placeholder="إجمالي الأوردر" required><input id="c" type="number" placeholder="تكلفة التصنيع" required><button>إضافة أوردر</button></form><h2>الأوردرات</h2><table><thead><tr><th>العميل</th><th>الموبايل</th><th>النوع</th><th>الإجمالي</th><th>التصنيع</th><th>الربح</th></tr></thead><tbody id="rows"></tbody></table><h3 id="summary"></h3></main><script>let a=JSON.parse(localStorage.getItem('orders')||'[]');function draw(){let s=0,p=0;a.forEach(x=>{s+=x.v;p+=x.v-x.c});document.getElementById('summary').textContent='إجمالي الأوردرات: '+s+' ج.م | صافي الربح المتوقع: '+p+' ج.م';document.getElementById('rows').innerHTML=a.map(x=>'<tr><td>'+x.n+'</td><td>'+x.m+'</td><td>'+x.t+'</td><td>'+x.v+'</td><td>'+x.c+'</td><td>'+(x.v-x.c)+'</td></tr>').join('');localStorage.setItem('orders',JSON.stringify(a))}document.getElementById('f').onsubmit=e=>{e.preventDefault();a.push({n:n.value,m:m.value,t:t.value,v:+v.value,c:+c.value});draw();e.target.reset()};draw();</script></main></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>إدارة الأوردرات والأرباح</title>
+<style>
+:root{font-family:Tahoma,Arial,sans-serif;color:#172033;background:#f3f6fb}*{box-sizing:border-box}body{margin:0}header{background:#101827;color:#fff;padding:24px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}h1{font-size:23px;margin:0 0 6px}.sub{color:#c5cede;font-size:13px}.wrap{max-width:1200px;margin:24px auto;padding:0 16px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.card,.panel{background:#fff;border:1px solid #e4e9f1;border-radius:14px;padding:18px;box-shadow:0 3px 12px #17203308}.card small{color:#65718a}.card strong{display:block;font-size:23px;margin-top:10px}.green{color:#07845b}.blue{color:#2563eb}.orange{color:#c47712}.panel{margin-bottom:18px}.panel h2{font-size:18px;margin:0 0 16px}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:13px;color:#536078;margin-bottom:6px}.field input,.field select,.toolbar input,.toolbar select{width:100%;padding:11px;border:1px solid #d7deea;border-radius:9px;background:#fff;font:inherit;min-width:0}.payments{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.payment{background:#f7f9fc;border:1px solid #e6ebf3;padding:12px;border-radius:10px}.payment b{font-size:13px;display:block;margin-bottom:10px}.payment .field+ .field{margin-top:9px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.btn{border:0;border-radius:9px;padding:11px 16px;font:inherit;cursor:pointer;background:#e8edf5;color:#243047}.primary{background:#2563eb;color:#fff}.danger{background:#fee9e9;color:#b42318}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:140px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid #edf0f5;font-size:13px;white-space:nowrap}th{background:#f8fafd;color:#536078;font-weight:600}.muted{color:#718096}.tag{padding:5px 8px;border-radius:20px;font-size:11px;background:#edf2ff;color:#3157a4}.rowbtn{border:0;background:none;color:#2563eb;cursor:pointer;font:inherit;margin-left:8px}.empty{text-align:center;color:#8993a5;padding:30px}.note{font-size:12px;color:#7b8495;margin-top:12px}.total{font-weight:bold}.hidden{display:none!important}
+@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.formgrid,.payments{grid-template-columns:1fr 1fr}}@media(max-width:520px){header{padding:20px 16px}.cards{gap:9px}.card{padding:13px}.card strong{font-size:18px}.formgrid,.payments{grid-template-columns:1fr}.wrap{margin:16px auto;padding:0 10px}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<header><div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">تابع مبيعاتك وتكاليفك ودفعات العملاء في مكان واحد</div></div><div class="sub">العملة: جنيه مصري (EGP)</div></header>
+<main class="wrap">
+<section class="cards">
+<div class="card"><small>إجمالي قيمة الأوردرات</small><strong class="blue" id="sumSales">0 ج.م</strong></div>
+<div class="card"><small>إجمالي تكلفة التصنيع</small><strong id="sumCost">0 ج.م</strong></div>
+<div class="card"><small>صافي الربح</small><strong class="green" id="sumProfit">0 ج.م</strong></div>
+<div class="card"><small>المبالغ المحصلة</small><strong class="orange" id="sumPaid">0 ج.م</strong></div>
+</section>
+<section class="panel">
+<h2 id="formTitle">إضافة أوردر جديد</h2>
+<form id="orderForm">
+<input type="hidden" id="editId">
+<div class="formgrid">
+<div class="field"><label for="customer">اسم العميل *</label><input id="customer" required placeholder="اسم العميل"></div>
+<div class="field"><label for="phone">رقم الموبايل</label><input id="phone" type="tel" placeholder="01xxxxxxxxx"></div>
+<div class="field"><label for="kind">نوع الأوردر</label><input id="kind" placeholder="مثال: ملابس، إكسسوارات..."></div>
+<div class="field"><label for="total">إجمالي قيمة الأوردر (ج.م) *</label><input id="total" type="number" min="0" step="0.01" required placeholder="0"></div>
+<div class="field"><label for="cost">تكلفة التصنيع (ج.م) *</label><input id="cost" type="number" min="0" step="0.01" required placeholder="0"></div>
+</div>
+<h2 style="margin-top:22px">الدفعات (3 دفعات)</h2>
+<div class="payments">
+<div class="payment"><b>الدفعة 1</b><div class="field"><label for="p1">المبلغ (ج.م)</label><input id="p1" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d1">تاريخ الدفع</label><input id="d1" type="date"></div></div><div class="payment"><b>الدفعة 2</b><div class="field"><label for="p2">المبلغ (ج.م)</label><input id="p2" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d2">تاريخ الدفع</label><input id="d2" type="date"></div></div><div class="payment"><b>الدفعة 3</b><div class="field"><label for="p3">المبلغ (ج.م)</label><input id="p3" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d3">تاريخ الدفع</label><input id="d3" type="date"></div></div>
+</div>
+<div class="actions"><button class="btn primary" type="submit" id="saveBtn">حفظ الأوردر</button><button class="btn" type="button" id="cancelBtn">إلغاء / تفريغ</button></div>
+<div class="note">صافي الربح = إجمالي قيمة الأوردر − تكلفة التصنيع. المبالغ المحصلة تُحسب من الدفعات الثلاث.</div>
+</form>
+</section>
+<section class="panel">
+<h2>الأوردرات المسجلة</h2>
+<div class="toolbar"><input id="search" placeholder="ابحث باسم العميل أو رقم الموبايل أو نوع الأوردر"><select id="filter"><option value="all">كل الأوردرات</option><option value="paid">تم التحصيل بالكامل</option><option value="partial">تحصيل جزئي</option><option value="unpaid">لم يتم التحصيل</option></select><button class="btn" id="exportBtn" type="button">تصدير Excel / CSV</button></div>
+<div class="tablewrap"><table><thead><tr><th>العميل</th><th>الموبايل</th><th>نوع الأوردر</th><th>الإجمالي</th><th>التصنيع</th><th>صافي الربح</th><th>المحصّل</th><th>المتبقي</th><th>الدفعات وتواريخها</th><th>إجراءات</th></tr></thead><tbody id="ordersBody"></tbody></table><div id="empty" class="empty">لا توجد أوردرات حتى الآن. أضف أول أوردر من النموذج بالأعلى.</div></div>
+</section>
+<div class="note">يتم حفظ البيانات على هذا الجهاز والمتصفح فقط باستخدام التخزين المحلي. استخدم تصدير CSV للاحتفاظ بنسخة احتياطية أو نقل البيانات لجهاز آخر.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>(Number(n)||0).toLocaleString('ar-EG',{maximumFractionDigits:2})+' ج.م';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let orders=[];
+try{orders=JSON.parse(localStorage.getItem('orderProfitDashboard')||'[]');if(!Array.isArray(orders))orders=[]}catch(e){orders=[]}
+function paid(o){return (o.payments||[]).reduce((a,p)=>a+(Number(p.amount)||0),0)}
+function save(){localStorage.setItem('orderProfitDashboard',JSON.stringify(orders));render()}
+function resetForm(){ $('orderForm').reset();$('editId').value='';$('formTitle').textContent='إضافة أوردر جديد';$('saveBtn').textContent='حفظ الأوردر';}
+$('cancelBtn').addEventListener('click',resetForm);
+$('orderForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const total=Number($('total').value),cost=Number($('cost').value);
+ const payments=[1,2,3].map(n=>({amount:Number($('p'+n).value)||0,date:$('d'+n).value||''}));
+ if(total<0||cost<0||payments.some(p=>p.amount<0)){alert('من فضلك أدخل مبالغ صحيحة.');return}
+ const obj={id:$('editId').value||String(Date.now()),customer:$('customer').value.trim(),phone:$('phone').value.trim(),kind:$('kind').value.trim(),total,cost,payments};
+ const idx=orders.findIndex(o=>o.id===obj.id);
+ if(idx>=0)orders[idx]=obj;else orders.unshift(obj);
+ save();resetForm();
+});
+function render(){
+ const sum=(fn)=>orders.reduce((a,o)=>a+fn(o),0);
+ $('sumSales').textContent=money(sum(o=>Number(o.total)||0));
+ $('sumCost').textContent=money(sum(o=>Number(o.cost)||0));
+ $('sumProfit').textContent=money(sum(o=>(Number(o.total)||0)-(Number(o.cost)||0)));
+ $('sumPaid').textContent=money(sum(paid));
+ const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
+ const shown=orders.filter(o=>{
+  const match=[o.customer,o.phone,o.kind].join(' ').toLowerCase().includes(q);
+  const p=paid(o),t=Number(o.total)||0;
+  const status=f==='paid'?p>=t&&t>0:f==='partial'?p>0&&p<t:f==='unpaid'?p===0:true;
+  return match&&status;
+ });
+ $('empty').classList.toggle('hidden',shown.length>0);
+ $('ordersBody').innerHTML=shown.map(o=>{
+  const p=paid(o),remain=(Number(o.total)||0)-p;
+  const payText=(o.payments||[]).map((x,i)=>'دفعة '+(i+1)+': '+money(x.amount)+(x.date?' - '+esc(x.date):'')).join('<br>');
+  return '<tr><td><b>'+esc(o.customer)+'</b></td><td>'+esc(o.phone||'—')+'</td><td>'+esc(o.kind||'—')+'</td><td>'+money(o.total)+'</td><td>'+money(o.cost)+'</td><td class="total green">'+money((Number(o.total)||0)-(Number(o.cost)||0))+'</td><td>'+money(p)+'</td><td class="total">'+money(remain)+'</td><td class="muted">'+payText+'</td><td><button class="rowbtn" data-edit="'+esc(o.id)+'">تعديل</button><button class="rowbtn" style="color:#b42318" data-delete="'+esc(o.id)+'">حذف</button></td></tr>';
+ }).join('');
+}
+$('ordersBody').addEventListener('click',e=>{
+ const edit=e.target.dataset.edit,del=e.target.dataset.delete;
+ if(edit){
+  const o=orders.find(x=>x.id===edit);if(!o)return;
+  $('editId').value=o.id;$('customer').value=o.customer;$('phone').value=o.phone;$('kind').value=o.kind;$('total').value=o.total;$('cost').value=o.cost;
+  (o.payments||[]).forEach((p,i)=>{$('p'+(i+1)).value=p.amount||'';$('d'+(i+1)).value=p.date||''});
+  $('formTitle').textContent='تعديل بيانات الأوردر';$('saveBtn').textContent='حفظ التعديلات';window.scrollTo({top:0,behavior:'smooth'});
+ }
+ if(del&&confirm('هل أنت متأكد من حذف هذا الأوردر؟')){orders=orders.filter(o=>o.id!==del);save();if($('editId').value===del)resetForm()}
+});
+$('search').addEventListener('input',render);$('filter').addEventListener('change',render);
+$('exportBtn').addEventListener('click',()=>{
+ const headers=['اسم العميل','رقم الموبايل','نوع الأوردر','إجمالي الأوردر','تكلفة التصنيع','صافي الربح','الدفعة 1','تاريخ الدفعة 1','الدفعة 2','تاريخ الدفعة 2','الدفعة 3','تاريخ الدفعة 3','إجمالي المحصل','المتبقي'];
+ const rows=orders.map(o=>{const ps=o.payments||[];return [o.customer,o.phone,o.kind,o.total,o.cost,(Number(o.total)||0)-(Number(o.cost)||0),ps[0]?.amount||0,ps[0]?.date||'',ps[1]?.amount||0,ps[1]?.date||'',ps[2]?.amount||0,ps[2]?.date||'',paid(o),(Number(o.total)||0)-paid(o)]});
+ const csv=[headers,...rows].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');
+ const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='orders-and-profits.csv';a.click();URL.revokeObjectURL(url);
+});
+render();
+</script>
+</body></html>
