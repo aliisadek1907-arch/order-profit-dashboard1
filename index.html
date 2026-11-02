@@ -87,12 +87,26 @@ let orders=[],contractData=null,expenseCount=20;
 const SUPABASE_URL='https://kedmhpapipkcbvhlzdrg.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_7hE8OVkAHiXMbxnPulU3rg_haOempwb';
 let cloudClient=null;
-try{
- if(!window.supabase||typeof window.supabase.createClient!=='function') throw new Error('تعذر تحميل مكتبة الاتصال. حدّث الصفحة أو جرّب متصفح Chrome.');
+function initCloudClient(){
+ if(cloudClient)return cloudClient;
+ if(!window.supabase||typeof window.supabase.createClient!=='function')return null;
  cloudClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-}catch(initError){
- setTimeout(()=>{const m=document.getElementById('authMessage');if(m)m.textContent=initError.message;},0);
+ return cloudClient;
 }
+function ensureCloudClient(){
+ const ready=initCloudClient();
+ if(ready)return Promise.resolve(ready);
+ cloudMessage('جاري تحميل مكتبة الاتصال...');
+ return new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src='https://unpkg.com/@supabase/supabase-js@2';
+  script.onload=()=>{try{const client=initCloudClient();if(client)resolve(client);else reject(new Error('تم تحميل المكتبة لكن تعذر تهيئة الاتصال.'));}catch(e){reject(e)}};
+  script.onerror=()=>reject(new Error('تعذر تحميل مكتبة الاتصال من خادمين. تحقق من الإنترنت أو جرّب Chrome.'));
+  document.head.appendChild(script);
+ });
+}
+try{initCloudClient();}catch(initError){cloudMessage('تعذر تهيئة الاتصال: '+initError.message);}
+window.addEventListener('error',e=>{const m=document.getElementById('authMessage');if(m)m.textContent='حدث خطأ في تشغيل الصفحة: '+(e.message||'خطأ JavaScript')});
 let cloudUser=null,cloudReady=false,cloudSaveTimer=null;
 function cloudMessage(msg){$('authMessage').textContent=msg}
 function cloudStatus(msg){$('cloudStatus').textContent=msg}
@@ -124,7 +138,8 @@ async function startCloudSession(user){
  render();
 }
 $('signInBtn').onclick=async()=>{
- if(!cloudClient){cloudMessage('مكتبة Supabase لم تُحمّل. افتح الصفحة في Chrome وحدّثها.');return}
+ try{await ensureCloudClient()}catch(e){cloudMessage(e.message);return}
+ if(!cloudClient){cloudMessage('تعذر تهيئة خدمة الحفظ السحابي.');return}
  const email=$('authEmail').value.trim(),password=$('authPassword').value;
  if(!email||!password){cloudMessage('أدخل البريد الإلكتروني وكلمة المرور.');return}
  cloudMessage('جاري تسجيل الدخول...');
@@ -133,7 +148,8 @@ $('signInBtn').onclick=async()=>{
  await startCloudSession(data.user);
 };
 $('signUpBtn').onclick=async()=>{
- if(!cloudClient){cloudMessage('مكتبة Supabase لم تُحمّل. افتح الصفحة في Chrome وحدّثها.');return}
+ try{await ensureCloudClient()}catch(e){cloudMessage(e.message);return}
+ if(!cloudClient){cloudMessage('تعذر تهيئة خدمة الحفظ السحابي.');return}
  const email=$('authEmail').value.trim(),password=$('authPassword').value;
  if(!email||!password){cloudMessage('أدخل البريد الإلكتروني وكلمة المرور.');return}
  if(password.length<8){cloudMessage('كلمة المرور يجب أن تكون 8 أحرف على الأقل.');return}
