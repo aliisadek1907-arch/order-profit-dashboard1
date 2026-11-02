@@ -1,107 +1,55 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101827">
-<title>إدارة الأوردرات والأرباح</title>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101827"><title>إدارة الأوردرات والأرباح</title>
 <style>
-:root{font-family:Tahoma,Arial,sans-serif;color:#172033;background:#f3f6fb}*{box-sizing:border-box}body{margin:0}header{background:#101827;color:#fff;padding:24px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}h1{font-size:23px;margin:0 0 6px}.sub{color:#c5cede;font-size:13px}.wrap{max-width:1200px;margin:24px auto;padding:0 16px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.card,.panel{background:#fff;border:1px solid #e4e9f1;border-radius:14px;padding:18px;box-shadow:0 3px 12px #17203308}.card small{color:#65718a}.card strong{display:block;font-size:23px;margin-top:10px}.green{color:#07845b}.blue{color:#2563eb}.orange{color:#c47712}.panel{margin-bottom:18px}.panel h2{font-size:18px;margin:0 0 16px}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:13px;color:#536078;margin-bottom:6px}.field input,.field select,.toolbar input,.toolbar select{width:100%;padding:11px;border:1px solid #d7deea;border-radius:9px;background:#fff;font:inherit;min-width:0}.payments{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.payment{background:#f7f9fc;border:1px solid #e6ebf3;padding:12px;border-radius:10px}.payment b{font-size:13px;display:block;margin-bottom:10px}.payment .field+ .field{margin-top:9px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.btn{border:0;border-radius:9px;padding:11px 16px;font:inherit;cursor:pointer;background:#e8edf5;color:#243047}.primary{background:#2563eb;color:#fff}.danger{background:#fee9e9;color:#b42318}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:140px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid #edf0f5;font-size:13px;white-space:nowrap}th{background:#f8fafd;color:#536078;font-weight:600}.muted{color:#718096}.tag{padding:5px 8px;border-radius:20px;font-size:11px;background:#edf2ff;color:#3157a4}.rowbtn{border:0;background:none;color:#2563eb;cursor:pointer;font:inherit;margin-left:8px}.empty{text-align:center;color:#8993a5;padding:30px}.note{font-size:12px;color:#7b8495;margin-top:12px}.total{font-weight:bold}.hidden{display:none!important}
-@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.formgrid,.payments{grid-template-columns:1fr 1fr}}@media(max-width:520px){header{padding:20px 16px}.cards{gap:9px}.card{padding:13px}.card strong{font-size:18px}.formgrid,.payments{grid-template-columns:1fr}.wrap{margin:16px auto;padding:0 10px}.panel{padding:14px}}
-</style>
-</head>
-<body>
-<header><div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">تابع مبيعاتك وتكاليفك ودفعات العملاء في مكان واحد</div></div><div class="sub">العملة: جنيه مصري (EGP)</div></header>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#172033;font-family:Tahoma,Arial,sans-serif}header{background:#101827;color:white;padding:22px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}h1{font-size:22px;margin:0 0 6px}.sub{color:#c5cede;font-size:13px}.wrap{max-width:1200px;margin:22px auto;padding:0 14px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.card,.panel{background:#fff;border:1px solid #e4e9f1;border-radius:14px;padding:17px;box-shadow:0 3px 12px #17203308}.card small{color:#65718a}.card strong{display:block;font-size:22px;margin-top:9px}.blue{color:#2563eb}.green{color:#07845b}.orange{color:#c47712}.panel{margin-bottom:17px}h2{font-size:18px;margin:0 0 15px}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:13px;color:#536078;margin:0 0 6px}.field input,.toolbar input,.toolbar select{width:100%;padding:10px;border:1px solid #d7deea;border-radius:9px;font:inherit;background:#fff}.field input[type=file]{padding:8px}.payments,.expenses{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.payment,.expense{background:#f7f9fc;border:1px solid #e6ebf3;border-radius:10px;padding:12px}.payment b,.expense b{display:block;font-size:13px;margin-bottom:9px}.payment .field+.field,.expense .field+.field{margin-top:8px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:9px;padding:10px 15px;font:inherit;cursor:pointer;background:#e8edf5;color:#243047}.primary{background:#2563eb;color:white}.danger{background:#fee9e9;color:#b42318}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:140px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{text-align:right;padding:11px 9px;border-bottom:1px solid #edf0f5;font-size:13px;white-space:nowrap}th{background:#f8fafd;color:#536078}.rowbtn{border:0;background:none;color:#2563eb;cursor:pointer;font:inherit;margin-left:8px}.muted{color:#718096}.empty{text-align:center;color:#8993a5;padding:25px}.note{font-size:12px;color:#7b8495;margin-top:10px}.hidden{display:none!important}.contract-preview{max-width:180px;max-height:130px;display:block;margin-top:8px;border-radius:8px;border:1px solid #ddd}.monthbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:13px}.monthbar input{padding:9px;border:1px solid #d7deea;border-radius:8px;font:inherit}
+@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.formgrid,.payments,.expenses{grid-template-columns:1fr 1fr}}@media(max-width:480px){header{padding:18px 14px}.wrap{padding:0 9px}.cards{gap:8px}.card{padding:12px}.card strong{font-size:17px}.formgrid,.payments,.expenses{grid-template-columns:1fr}.panel{padding:13px}}
+</style></head><body>
+<header><div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">متابعة التعاقدات والمبيعات والمصروفات</div></div><div class="sub">جميع المبالغ بالجنيه المصري</div></header>
 <main class="wrap">
+<div class="monthbar"><label for="month">الشهر المعروض في المؤشرات:</label><input type="month" id="month"></div>
 <section class="cards">
-<div class="card"><small>إجمالي قيمة الأوردرات</small><strong class="blue" id="sumSales">0 ج.م</strong></div>
-<div class="card"><small>إجمالي تكلفة التصنيع</small><strong id="sumCost">0 ج.م</strong></div>
-<div class="card"><small>صافي الربح</small><strong class="green" id="sumProfit">0 ج.م</strong></div>
-<div class="card"><small>المبالغ المحصلة</small><strong class="orange" id="sumPaid">0 ج.م</strong></div>
+<div class="card"><small>إجمالي التعاقدات الشهرية</small><strong class="blue" id="monthContracts">0 ج.م</strong></div>
+<div class="card"><small>إجمالي المبيعات المحصّلة شهريًا</small><strong class="green" id="monthSales">0 ج.م</strong></div>
+<div class="card"><small>إجمالي المصروفات الشهرية</small><strong class="orange" id="monthExpenses">0 ج.م</strong></div>
 </section>
-<section class="panel">
-<h2 id="formTitle">إضافة أوردر جديد</h2>
-<form id="orderForm">
-<input type="hidden" id="editId">
+<section class="panel"><h2 id="formTitle">إضافة أوردر جديد</h2>
+<form id="orderForm"><input type="hidden" id="editId">
 <div class="formgrid">
-<div class="field"><label for="customer">اسم العميل *</label><input id="customer" required placeholder="اسم العميل"></div>
-<div class="field"><label for="phone">رقم الموبايل</label><input id="phone" type="tel" placeholder="01xxxxxxxxx"></div>
-<div class="field"><label for="kind">نوع الأوردر</label><input id="kind" placeholder="مثال: ملابس، إكسسوارات..."></div>
-<div class="field"><label for="total">إجمالي قيمة الأوردر (ج.م) *</label><input id="total" type="number" min="0" step="0.01" required placeholder="0"></div>
-<div class="field"><label for="cost">تكلفة التصنيع (ج.م) *</label><input id="cost" type="number" min="0" step="0.01" required placeholder="0"></div>
+<div class="field"><label for="customer">اسم العميل *</label><input id="customer" required></div>
+<div class="field"><label for="phone">رقم الموبايل</label><input id="phone" type="tel"></div>
+<div class="field"><label for="kind">نوع الأوردر</label><input id="kind"></div>
+<div class="field"><label for="contractDate">تاريخ التعاقد *</label><input id="contractDate" type="date" required></div>
+<div class="field"><label for="total">إجمالي قيمة التعاقد (ج.م) *</label><input id="total" type="number" min="0" step=".01" required></div>
+<div class="field"><label for="manufacturing">تكلفة التصنيع (ج.م)</label><input id="manufacturing" type="number" min="0" step=".01" placeholder="0"></div>
+<div class="field"><label for="contractImage">صورة العقد</label><input id="contractImage" type="file" accept="image/*"><img id="imagePreview" class="contract-preview hidden" alt="معاينة العقد"><span id="imageName" class="note"></span></div>
 </div>
-<h2 style="margin-top:22px">الدفعات (3 دفعات)</h2>
-<div class="payments">
-<div class="payment"><b>الدفعة 1</b><div class="field"><label for="p1">المبلغ (ج.م)</label><input id="p1" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d1">تاريخ الدفع</label><input id="d1" type="date"></div></div><div class="payment"><b>الدفعة 2</b><div class="field"><label for="p2">المبلغ (ج.م)</label><input id="p2" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d2">تاريخ الدفع</label><input id="d2" type="date"></div></div><div class="payment"><b>الدفعة 3</b><div class="field"><label for="p3">المبلغ (ج.م)</label><input id="p3" type="number" min="0" step="0.01" placeholder="0"></div><div class="field"><label for="d3">تاريخ الدفع</label><input id="d3" type="date"></div></div>
+<h2 style="margin-top:22px">الدفعات الثلاث</h2><div class="payments">
+<div class="payment"><b>الدفعة 1</b><div class="field"><label for="p1">المبلغ (ج.م)</label><input id="p1" type="number" min="0" step=".01" placeholder="0"></div><div class="field"><label for="d1">تاريخ التحصيل</label><input id="d1" type="date"></div></div><div class="payment"><b>الدفعة 2</b><div class="field"><label for="p2">المبلغ (ج.م)</label><input id="p2" type="number" min="0" step=".01" placeholder="0"></div><div class="field"><label for="d2">تاريخ التحصيل</label><input id="d2" type="date"></div></div><div class="payment"><b>الدفعة 3</b><div class="field"><label for="p3">المبلغ (ج.م)</label><input id="p3" type="number" min="0" step=".01" placeholder="0"></div><div class="field"><label for="d3">تاريخ التحصيل</label><input id="d3" type="date"></div></div>
 </div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px"><h2 style="margin:0">مصروفات الأوردر</h2><button class="btn" type="button" id="addExpense">+ إضافة خانة مصروف</button></div>
+<div class="expenses" id="expenses"></div>
 <div class="actions"><button class="btn primary" type="submit" id="saveBtn">حفظ الأوردر</button><button class="btn" type="button" id="cancelBtn">إلغاء / تفريغ</button></div>
-<div class="note">صافي الربح = إجمالي قيمة الأوردر − تكلفة التصنيع. المبالغ المحصلة تُحسب من الدفعات الثلاث.</div>
-</form>
-</section>
-<section class="panel">
-<h2>الأوردرات المسجلة</h2>
-<div class="toolbar"><input id="search" placeholder="ابحث باسم العميل أو رقم الموبايل أو نوع الأوردر"><select id="filter"><option value="all">كل الأوردرات</option><option value="paid">تم التحصيل بالكامل</option><option value="partial">تحصيل جزئي</option><option value="unpaid">لم يتم التحصيل</option></select><button class="btn" id="exportBtn" type="button">تصدير Excel / CSV</button></div>
-<div class="tablewrap"><table><thead><tr><th>العميل</th><th>الموبايل</th><th>نوع الأوردر</th><th>الإجمالي</th><th>التصنيع</th><th>صافي الربح</th><th>المحصّل</th><th>المتبقي</th><th>الدفعات وتواريخها</th><th>إجراءات</th></tr></thead><tbody id="ordersBody"></tbody></table><div id="empty" class="empty">لا توجد أوردرات حتى الآن. أضف أول أوردر من النموذج بالأعلى.</div></div>
-</section>
-<div class="note">يتم حفظ البيانات على هذا الجهاز والمتصفح فقط باستخدام التخزين المحلي. استخدم تصدير CSV للاحتفاظ بنسخة احتياطية أو نقل البيانات لجهاز آخر.</div>
+<div class="note">صافي ربح الأوردر يُحسب تلقائيًا = قيمة التعاقد − تكلفة التصنيع − مجموع المصروفات. اكتب اسم كل مصروف ومبلغه وتاريخه بنفسك.</div>
+</form></section>
+<section class="panel"><h2>الأوردرات</h2><div class="toolbar"><input id="search" placeholder="ابحث باسم العميل أو رقم الموبايل أو النوع"><select id="filter"><option value="all">كل الأوردرات</option><option value="paid">تم التحصيل بالكامل</option><option value="partial">تحصيل جزئي</option><option value="unpaid">لم يتم التحصيل</option></select><button class="btn primary" id="exportBtn" type="button">تنزيل ملف Excel بكل البيانات</button></div>
+<div class="tablewrap"><table><thead><tr><th>العميل</th><th>الموبايل</th><th>نوع الأوردر</th><th>تاريخ التعاقد</th><th>قيمة التعاقد</th><th>المحصّل</th><th>المتبقي</th><th>صافي الربح</th><th>العقد</th><th>إجراءات</th></tr></thead><tbody id="ordersBody"></tbody></table><div id="empty" class="empty">لا توجد أوردرات مسجلة حتى الآن.</div></div></section>
+<div class="note">البيانات والصور محفوظة على نفس الجهاز والمتصفح. يُفضّل تنزيل ملف Excel احتياطيًا باستمرار. ملف Excel يتضمن كل التفاصيل المالية والدفعات والمصروفات وأسماء ملفات العقود؛ صور العقود تظل محفوظة ويمكن فتحها من الداشبورد.</div>
 </main>
 <script>
-const $=id=>document.getElementById(id);
-const money=n=>(Number(n)||0).toLocaleString('ar-EG',{maximumFractionDigits:2})+' ج.م';
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let orders=[];
+const $=id=>document.getElementById(id),money=n=>(Number(n)||0).toLocaleString('en-EG',{maximumFractionDigits:2})+' ج.م',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let orders=[],contractData=null,expenseCount=5;
 try{orders=JSON.parse(localStorage.getItem('orderProfitDashboard')||'[]');if(!Array.isArray(orders))orders=[]}catch(e){orders=[]}
-function paid(o){return (o.payments||[]).reduce((a,p)=>a+(Number(p.amount)||0),0)}
-function save(){localStorage.setItem('orderProfitDashboard',JSON.stringify(orders));render()}
-function resetForm(){ $('orderForm').reset();$('editId').value='';$('formTitle').textContent='إضافة أوردر جديد';$('saveBtn').textContent='حفظ الأوردر';}
-$('cancelBtn').addEventListener('click',resetForm);
-$('orderForm').addEventListener('submit',e=>{
- e.preventDefault();
- const total=Number($('total').value),cost=Number($('cost').value);
- const payments=[1,2,3].map(n=>({amount:Number($('p'+n).value)||0,date:$('d'+n).value||''}));
- if(total<0||cost<0||payments.some(p=>p.amount<0)){alert('من فضلك أدخل مبالغ صحيحة.');return}
- const obj={id:$('editId').value||String(Date.now()),customer:$('customer').value.trim(),phone:$('phone').value.trim(),kind:$('kind').value.trim(),total,cost,payments};
- const idx=orders.findIndex(o=>o.id===obj.id);
- if(idx>=0)orders[idx]=obj;else orders.unshift(obj);
- save();resetForm();
-});
-function render(){
- const sum=(fn)=>orders.reduce((a,o)=>a+fn(o),0);
- $('sumSales').textContent=money(sum(o=>Number(o.total)||0));
- $('sumCost').textContent=money(sum(o=>Number(o.cost)||0));
- $('sumProfit').textContent=money(sum(o=>(Number(o.total)||0)-(Number(o.cost)||0)));
- $('sumPaid').textContent=money(sum(paid));
- const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
- const shown=orders.filter(o=>{
-  const match=[o.customer,o.phone,o.kind].join(' ').toLowerCase().includes(q);
-  const p=paid(o),t=Number(o.total)||0;
-  const status=f==='paid'?p>=t&&t>0:f==='partial'?p>0&&p<t:f==='unpaid'?p===0:true;
-  return match&&status;
- });
- $('empty').classList.toggle('hidden',shown.length>0);
- $('ordersBody').innerHTML=shown.map(o=>{
-  const p=paid(o),remain=(Number(o.total)||0)-p;
-  const payText=(o.payments||[]).map((x,i)=>'دفعة '+(i+1)+': '+money(x.amount)+(x.date?' - '+esc(x.date):'')).join('<br>');
-  return '<tr><td><b>'+esc(o.customer)+'</b></td><td>'+esc(o.phone||'—')+'</td><td>'+esc(o.kind||'—')+'</td><td>'+money(o.total)+'</td><td>'+money(o.cost)+'</td><td class="total green">'+money((Number(o.total)||0)-(Number(o.cost)||0))+'</td><td>'+money(p)+'</td><td class="total">'+money(remain)+'</td><td class="muted">'+payText+'</td><td><button class="rowbtn" data-edit="'+esc(o.id)+'">تعديل</button><button class="rowbtn" style="color:#b42318" data-delete="'+esc(o.id)+'">حذف</button></td></tr>';
- }).join('');
-}
-$('ordersBody').addEventListener('click',e=>{
- const edit=e.target.dataset.edit,del=e.target.dataset.delete;
- if(edit){
-  const o=orders.find(x=>x.id===edit);if(!o)return;
-  $('editId').value=o.id;$('customer').value=o.customer;$('phone').value=o.phone;$('kind').value=o.kind;$('total').value=o.total;$('cost').value=o.cost;
-  (o.payments||[]).forEach((p,i)=>{$('p'+(i+1)).value=p.amount||'';$('d'+(i+1)).value=p.date||''});
-  $('formTitle').textContent='تعديل بيانات الأوردر';$('saveBtn').textContent='حفظ التعديلات';window.scrollTo({top:0,behavior:'smooth'});
- }
- if(del&&confirm('هل أنت متأكد من حذف هذا الأوردر؟')){orders=orders.filter(o=>o.id!==del);save();if($('editId').value===del)resetForm()}
-});
-$('search').addEventListener('input',render);$('filter').addEventListener('change',render);
-$('exportBtn').addEventListener('click',()=>{
- const headers=['اسم العميل','رقم الموبايل','نوع الأوردر','إجمالي الأوردر','تكلفة التصنيع','صافي الربح','الدفعة 1','تاريخ الدفعة 1','الدفعة 2','تاريخ الدفعة 2','الدفعة 3','تاريخ الدفعة 3','إجمالي المحصل','المتبقي'];
- const rows=orders.map(o=>{const ps=o.payments||[];return [o.customer,o.phone,o.kind,o.total,o.cost,(Number(o.total)||0)-(Number(o.cost)||0),ps[0]?.amount||0,ps[0]?.date||'',ps[1]?.amount||0,ps[1]?.date||'',ps[2]?.amount||0,ps[2]?.date||'',paid(o),(Number(o.total)||0)-paid(o)]});
- const csv=[headers,...rows].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');
- const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='orders-and-profits.csv';a.click();URL.revokeObjectURL(url);
-});
-render();
-</script>
-</body></html>
+orders=orders.map(o=>({...o,contractDate:o.contractDate||o.createdDate||new Date().toISOString().slice(0,10),manufacturing:Number(o.manufacturing??o.cost)||0,expenses:Array.isArray(o.expenses)?o.expenses:[],payments:Array.isArray(o.payments)?o.payments:[]}));
+function expSum(o){return (o.expenses||[]).reduce((a,x)=>a+(Number(x.amount)||0),0)}function paid(o){return (o.payments||[]).reduce((a,x)=>a+(Number(x.amount)||0),0)}function profit(o){return (Number(o.total)||0)-(Number(o.manufacturing)||0)-expSum(o)}
+function persist(){try{localStorage.setItem('orderProfitDashboard',JSON.stringify(orders));render()}catch(e){alert('مساحة التخزين ممتلئة. جرّب صورة عقد أصغر أو احذف بعض الصور. لم يتم حفظ التعديل.')}}function renderExpenseFields(values=[]){const host=$('expenses');host.innerHTML='';const count=Math.max(5,values.length);for(let i=0;i<count;i++){const x=values[i]||{};const div=document.createElement('div');div.className='expense';div.innerHTML='<b>مصروف '+(i+1)+'</b><div class="field"><label>اسم المصروف</label><input class="exp-name" placeholder="اكتب اسم المصروف" value="'+esc(x.name||'')+'"></div><div class="field"><label>المبلغ (ج.م)</label><input class="exp-amount" type="number" min="0" step=".01" placeholder="0" value="'+(x.amount??'')+'"></div><div class="field"><label>تاريخ المصروف</label><input class="exp-date" type="date" value="'+esc(x.date||'')+'"></div>';host.appendChild(div)}}
+function getExpenses(){return [...$('expenses').querySelectorAll('.expense')].map(el=>({name:el.querySelector('.exp-name').value.trim(),amount:Number(el.querySelector('.exp-amount').value)||0,date:el.querySelector('.exp-date').value})).filter(x=>x.name||x.amount||x.date)}
+function resetForm(){ $('orderForm').reset();$('editId').value='';contractData=null;$('imagePreview').classList.add('hidden');$('imageName').textContent='';$('formTitle').textContent='إضافة أوردر جديد';$('saveBtn').textContent='حفظ الأوردر';renderExpenseFields();$('contractDate').value=new Date().toISOString().slice(0,10)}
+$('cancelBtn').onclick=resetForm;$('addExpense').onclick=()=>{const vals=getExpenses();vals.push({});renderExpenseFields(vals)};
+$('contractImage').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('من فضلك اختر صورة.');return}if(file.size>1200000){alert('حجم الصورة كبير. اختار صورة أقل من 1.2 ميجابايت.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>{contractData={data:reader.result,name:file.name};$('imagePreview').src=reader.result;$('imagePreview').classList.remove('hidden');$('imageName').textContent=file.name};reader.readAsDataURL(file)});
+$('orderForm').onsubmit=e=>{e.preventDefault();const total=Number($('total').value),manufacturing=Number($('manufacturing').value)||0,payments=[1,2,3].map(n=>({amount:Number($('p'+n).value)||0,date:$('d'+n).value||''})),expenses=getExpenses();if(total<0||manufacturing<0||payments.some(p=>p.amount<0)||expenses.some(x=>x.amount<0)){alert('راجع المبالغ المدخلة.');return}const id=$('editId').value||String(Date.now()),old=orders.find(o=>o.id===id);const obj={id,customer:$('customer').value.trim(),phone:$('phone').value.trim(),kind:$('kind').value.trim(),contractDate:$('contractDate').value,total,manufacturing,payments,expenses,contract:contractData||old?.contract||null};const idx=orders.findIndex(o=>o.id===id);if(idx>=0)orders[idx]=obj;else orders.unshift(obj);persist();resetForm()};
+function render(){const m=$('month').value;const sameMonth=d=>d&&d.slice(0,7)===m;$('monthContracts').textContent=money(orders.filter(o=>sameMonth(o.contractDate)).reduce((a,o)=>a+(Number(o.total)||0),0));$('monthSales').textContent=money(orders.reduce((a,o)=>a+(o.payments||[]).filter(p=>sameMonth(p.date)).reduce((b,p)=>b+(Number(p.amount)||0),0),0));$('monthExpenses').textContent=money(orders.reduce((a,o)=>a+(o.expenses||[]).filter(x=>sameMonth(x.date)).reduce((b,x)=>b+(Number(x.amount)||0),0),0));const q=$('search').value.toLowerCase().trim(),f=$('filter').value;const shown=orders.filter(o=>{const match=[o.customer,o.phone,o.kind].join(' ').toLowerCase().includes(q),p=paid(o),t=Number(o.total)||0;return match&&(f==='all'||(f==='paid'&&p>=t&&t>0)||(f==='partial'&&p>0&&p<t)||(f==='unpaid'&&p===0))});$('empty').classList.toggle('hidden',shown.length>0);$('ordersBody').innerHTML=shown.map(o=>'<tr><td><b>'+esc(o.customer)+'</b></td><td>'+esc(o.phone||'—')+'</td><td>'+esc(o.kind||'—')+'</td><td>'+esc(o.contractDate||'—')+'</td><td>'+money(o.total)+'</td><td>'+money(paid(o))+'</td><td>'+money((Number(o.total)||0)-paid(o))+'</td><td class="green">'+money(profit(o))+'</td><td>'+(o.contract?'<button class="rowbtn" data-image="'+esc(o.id)+'">عرض الصورة</button>':'—')+'</td><td><button class="rowbtn" data-edit="'+esc(o.id)+'">تعديل</button><button class="rowbtn" style="color:#b42318" data-delete="'+esc(o.id)+'">حذف</button></td></tr>').join('')}
+$('ordersBody').onclick=e=>{const id=e.target.dataset.edit,del=e.target.dataset.delete,img=e.target.dataset.image;if(img){const o=orders.find(x=>x.id===img);if(o?.contract?.data){const w=window.open();if(w){w.document.write('<title>صورة العقد</title><img style="max-width:100%;height:auto" src="'+o.contract.data+'">')}else alert('اسم الملف: '+o.contract.name)}}if(id){const o=orders.find(x=>x.id===id);if(!o)return;resetForm();$('editId').value=o.id;$('customer').value=o.customer;$('phone').value=o.phone;$('kind').value=o.kind;$('contractDate').value=o.contractDate;$('total').value=o.total;$('manufacturing').value=o.manufacturing||0;(o.payments||[]).forEach((p,i)=>{$('p'+(i+1)).value=p.amount||'';$('d'+(i+1)).value=p.date||''});renderExpenseFields(o.expenses||[]);if(o.contract){contractData=o.contract;$('imagePreview').src=o.contract.data;$('imagePreview').classList.remove('hidden');$('imageName').textContent=o.contract.name||'صورة العقد'}$('formTitle').textContent='تعديل الأوردر';$('saveBtn').textContent='حفظ التعديلات';window.scrollTo({top:0,behavior:'smooth'})}if(del&&confirm('هل تريد حذف الأوردر؟')){orders=orders.filter(o=>o.id!==del);persist();if($('editId').value===del)resetForm()}};
+$('search').oninput=render;$('filter').onchange=render;$('month').onchange=render;
+$('exportBtn').onclick=()=>{const sheet=(name,headers,rows)=>'<Worksheet ss:Name="'+name+'"><Table><Row>'+headers.map(h=>'<Cell><Data ss:Type="String">'+esc(h)+'</Data></Cell>').join('')+'</Row>'+rows.map(row=>'<Row>'+row.map(v=>'<Cell><Data ss:Type="'+(typeof v==='number'?'Number':'String')+'">'+esc(v??'')+'</Data></Cell>').join('')+'</Row>').join('')+'</Table></Worksheet>';const orderRows=orders.map(o=>[o.customer,o.phone,o.kind,o.contractDate,Number(o.total)||0,Number(o.manufacturing)||0,expSum(o),profit(o),paid(o),(Number(o.total)||0)-paid(o),o.contract?.name||'']);const paymentRows=orders.flatMap(o=>(o.payments||[]).map((p,i)=>[o.customer,o.id,'دفعة '+(i+1),Number(p.amount)||0,p.date||'']));const expenseRows=orders.flatMap(o=>(o.expenses||[]).map(x=>[o.customer,o.id,x.name,Number(x.amount)||0,x.date||'']));const xml='<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'+sheet('الأوردرات',['العميل','الموبايل','النوع','تاريخ التعاقد','قيمة التعاقد','تكلفة التصنيع','إجمالي المصروفات','صافي الربح','إجمالي المحصل','المتبقي','اسم ملف العقد'],orderRows)+sheet('الدفعات',['العميل','رقم الأوردر','الدفعة','المبلغ','تاريخ التحصيل'],paymentRows)+sheet('المصروفات',['العميل','رقم الأوردر','بند المصروف','المبلغ','التاريخ'],expenseRows)+'</Workbook>';const blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='orders-financial-report.xls';a.click();URL.revokeObjectURL(url)};
+$('month').value=new Date().toISOString().slice(0,7);renderExpenseFields();resetForm();render();
+</script></body></html>
