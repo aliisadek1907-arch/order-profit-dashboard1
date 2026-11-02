@@ -3,8 +3,42 @@
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#172033;font-family:Tahoma,Arial,sans-serif}header{background:#101827;color:white;padding:22px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}h1{font-size:22px;margin:0 0 6px}.sub{color:#c5cede;font-size:13px}.wrap{max-width:1200px;margin:22px auto;padding:0 14px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card,.panel{background:#fff;border:1px solid #e4e9f1;border-radius:14px;padding:17px;box-shadow:0 3px 12px #17203308}.card small{color:#65718a}.card strong{display:block;font-size:22px;margin-top:9px}.blue{color:#2563eb}.green{color:#07845b}.orange{color:#c47712}.panel{margin-bottom:17px}h2{font-size:18px;margin:0 0 15px}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field label{display:block;font-size:13px;color:#536078;margin:0 0 6px}.field input,.toolbar input,.toolbar select{width:100%;padding:10px;border:1px solid #d7deea;border-radius:9px;font:inherit;background:#fff}.field input[type=file]{padding:8px}.payments,.expenses{margin-top:10px;overflow-x:auto}.expenses table{width:100%;min-width:460px;border-collapse:collapse}.expenses th,.expenses td{padding:7px;border-bottom:1px solid #e8edf4;font-size:12px}.expenses input{width:100%;min-width:90px;padding:7px;border:1px solid #d7deea;border-radius:7px;font:inherit}.payment,.expense{background:#f7f9fc;border:1px solid #e6ebf3;border-radius:10px;padding:12px}.payment b,.expense b{display:block;font-size:13px;margin-bottom:9px}.payment .field+.field,.expense .field+.field{margin-top:8px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:9px;padding:10px 15px;font:inherit;cursor:pointer;background:#e8edf5;color:#243047}.primary{background:#2563eb;color:white}.danger{background:#fee9e9;color:#b42318}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:140px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{text-align:right;padding:11px 9px;border-bottom:1px solid #edf0f5;font-size:13px;white-space:nowrap}th{background:#f8fafd;color:#536078}.rowbtn{border:0;background:none;color:#2563eb;cursor:pointer;font:inherit;margin-left:8px}.muted{color:#718096}.empty{text-align:center;color:#8993a5;padding:25px}.note{font-size:12px;color:#7b8495;margin-top:10px}.hidden{display:none!important}.contract-preview{max-width:180px;max-height:130px;display:block;margin-top:8px;border-radius:8px;border:1px solid #ddd}.monthbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:13px}.monthbar input{padding:9px;border:1px solid #d7deea;border-radius:8px;font:inherit}
 @media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.formgrid,.payments,.expenses{grid-template-columns:1fr 1fr}}@media(max-width:480px){header{padding:18px 14px}.wrap{padding:0 9px}.cards{gap:8px}.card{padding:12px}.card strong{font-size:17px}.formgrid,.payments,.expenses{grid-template-columns:1fr}.panel{padding:13px}}
+
+/* WOODEX premium visual identity */
+:root{--brand-yellow:#f1df32;--brand-ink:#151515;--brand-muted:#6b7280;--brand-line:#e7e7e2;--brand-bg:#f5f5f2}
+body{background:var(--brand-bg);color:#20211f}
+header.brand-header{background:linear-gradient(115deg,#111 0%,#20201c 100%);padding:18px max(5%,calc((100% - 1200px)/2));border-bottom:4px solid var(--brand-yellow);min-height:112px}
+.brand-lockup{display:flex;align-items:center;gap:15px}
+.brand-mark{width:66px;height:66px;flex:0 0 66px;background:#090909;border:1px solid #454438;border-radius:13px;padding:5px;box-shadow:0 5px 18px #0005}
+.brand-mark svg{width:100%;height:100%}
+.brand-copy h1{font-size:17px;margin:8px 0 3px;color:#fff;letter-spacing:.1px}
+.brand-name{font-size:29px;line-height:1;font-weight:900;letter-spacing:2px;color:#fff}
+.brand-name span{color:var(--brand-yellow)}
+.brand-tag{font-size:11px;color:#e9e3a0;letter-spacing:.8px;margin-top:4px}
+.currency-tag{font-size:12px;color:#f5f1ce;background:#ffffff12;border:1px solid #ffffff24;border-radius:30px;padding:10px 15px}
+.wrap{max-width:1240px;margin:25px auto}
+.card,.panel{border:1px solid var(--brand-line);border-radius:16px;box-shadow:0 5px 20px #17171708}
+.card{position:relative;overflow:hidden;padding:19px}
+.card:before{content:"";position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--brand-yellow)}
+.card small{color:#77786f;font-weight:600}
+.card strong{font-size:23px;color:#24251f}
+.card .blue,.blue{color:#292a25}
+.card .green,.green{color:#477b48}
+.card .orange,.orange{color:#a17d13}
+.panel{padding:20px}
+h2{font-weight:800;color:#25251f}
+.btn{border:1px solid #deded4;background:#f1f1eb;color:#282820;transition:.18s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px #00000012}
+.btn.primary,.primary{background:var(--brand-yellow);border-color:var(--brand-yellow);color:#191914;font-weight:700}
+.btn.danger,.danger{background:#fff0ee;color:#a52b20;border-color:#f3d2ce}
+.field input:focus,.toolbar input:focus,.toolbar select:focus,.monthbar input:focus,.expenses input:focus{outline:2px solid #f1df3280;border-color:#c8b91d}
+th{background:#f0f0e9;color:#44453d}
+td{border-bottom-color:#eeeeea}
+.payment,.expense{background:#f8f8f3;border-color:#e7e7de}
+@media(max-width:600px){header.brand-header{padding:15px 12px}.brand-mark{width:53px;height:53px;flex-basis:53px}.brand-name{font-size:24px}.brand-copy h1{font-size:15px}.currency-tag{width:100%;text-align:center}.brand-header{gap:10px}}
+
 </style></head><body>
-<header><div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">متابعة التعاقدات والمبيعات والمصروفات</div></div><div class="sub">جميع المبالغ بالجنيه المصري</div></header>
+<header class="brand-header"><div class="brand-lockup"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M12 12H37L83 58V88H58L12 42Z" fill="#f1df32"/><path d="M88 12H63L17 58V88H42L88 42Z" fill="#f1df32"/><path d="M12 12L88 88" stroke="#151515" stroke-width="5"/></svg></div><div class="brand-copy"><div class="brand-name">WOOD<span>EX</span></div><div class="brand-tag">Kitchens &amp; Dressing Rooms</div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">متابعة التعاقدات والمبيعات والمصروفات</div></div></div><div class="currency-tag">جميع المبالغ بالجنيه المصري</div></header>
 <main class="wrap">
 <div class="monthbar"><label for="month">شهر المؤشرات:</label><input type="month" id="month"><label for="topFrom">من:</label><input type="date" id="topFrom"><label for="topTo">إلى:</label><input type="date" id="topTo"><button class="btn" type="button" id="exportIndicatorsPdf">تنزيل المؤشرات PDF</button><button class="btn primary" type="button" id="enableNotifications">تفعيل تنبيهات مواعيد الدفعات</button></div><div class="note" id="notificationStatus">فعّل التنبيهات ليصلك إشعار عند حلول موعد أي دفعة غير محصلة.</div>
 <section class="cards">
