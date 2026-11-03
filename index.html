@@ -392,7 +392,39 @@ function contractPrint(x){
 }function renderContracts(){$('contractsEmpty').classList.toggle('hidden',contracts.length>0);$('contractsBody').innerHTML=contracts.map(x=>'<tr><td><b>'+esc(x.number)+'</b></td><td>'+esc(x.date||'—')+'</td><td>'+esc(x.customer||'—')+'</td><td>'+esc(x.phone||'—')+'</td><td>'+money(x.total)+'</td><td><button class="rowbtn" data-cedit="'+esc(x.id)+'">تعديل</button><button class="rowbtn" data-cpdf="'+esc(x.id)+'">PDF</button><button class="rowbtn" data-cdelete="'+esc(x.id)+'">حذف</button></td></tr>').join('')}
 $('newContractBtn').onclick=()=>{contractReset();$('contractForm').classList.remove('hidden');$('contractForm').scrollIntoView({behavior:'smooth',block:'start'})};
 $('contractCancelBtn').onclick=contractReset;
-$('contractForm').onsubmit=e=>{e.preventDefault();const id=$('contractEditId').value||String(Date.now()),x={id,number:$('contractNumber').value,...contractRead()};if(!x.customer||!x.phone||!x.date||!x.total){alert('أكمل اسم العميل ورقم الهاتف والتاريخ وإجمالي التعاقد.');return}const i=contracts.findIndex(v=>v.id===id);if(i>=0)contracts[i]=x;else contracts.unshift(x);try{localStorage.setItem('woodexContracts',JSON.stringify(contracts));scheduleCloudSave();renderContracts();contractReset();alert('تم حفظ العقد بنجاح.')}catch(err){alert('تعذر حفظ العقد: '+err.message)}};
+$('contractForm').noValidate=true;
+$('contractForm').onsubmit=async e=>{
+ e.preventDefault();
+ const id=$('contractEditId').value||String(Date.now());
+ const x={id,number:$('contractNumber').value,...contractRead()};
+ if(!x.customer?.trim()||!x.phone?.trim()||!x.date||!(Number(x.total)>0)){
+  alert('أكمل اسم العميل ورقم الهاتف والتاريخ، وتأكد من إدخال المساحة وسعر المتر ليظهر إجمالي العقد.');
+  return;
+ }
+ const previous=contracts.slice();
+ const i=contracts.findIndex(v=>String(v.id)===String(id));
+ if(i>=0)contracts[i]=x;else contracts.unshift(x);
+ try{
+  localStorage.setItem('woodexContracts',JSON.stringify(contracts));
+  renderContracts();
+  contractReset();
+  if(cloudUser&&cloudReady){
+   await cloudSave();
+   if($('cloudStatus').textContent.includes('تعذر الحفظ السحابي')){
+    alert('تم حفظ العقد على هذا الجهاز، لكن تعذر رفعه للسحابة. تحقق من حالة الاتصال ثم حاول المزامنة.');
+    return;
+   }
+  }else{
+   cloudStatus('تم حفظ العقد على هذا الجهاز');
+  }
+  alert('تم حفظ العقد بنجاح.');
+ }catch(err){
+  contracts=previous;
+  try{localStorage.setItem('woodexContracts',JSON.stringify(contracts))}catch(e){}
+  renderContracts();
+  alert('تعذر حفظ العقد: '+err.message);
+ }
+};
 $('contractPrintBtn').onclick=()=>contractPrint({number:$('contractNumber').value,...contractRead()});
 $('contractsBody').onclick=e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.cedit||b.dataset.cpdf||b.dataset.cdelete,x=contracts.find(v=>v.id===id);if(!x)return;if(b.dataset.cpdf){contractPrint(x);return}if(b.dataset.cdelete){if(confirm('هل تريد حذف العقد؟')){contracts=contracts.filter(v=>v.id!==id);localStorage.setItem('woodexContracts',JSON.stringify(contracts));scheduleCloudSave();renderContracts()}return}$('contractEditId').value=x.id;$('contractNumber').value=x.number;contractIds.forEach(k=>{$('contract'+k).value=x[k[0].toLowerCase()+k.slice(1)]||''});contractRenderRows(x);contractMarbleCalc();contractFinancialCalc();$('contractForm').classList.remove('hidden');$('contractForm').scrollIntoView({behavior:'smooth',block:'start'})};
 $('addContractAccessory').onclick=()=>{contractAddRow('contractAccessoryRows','accessory');contractFinancialCalc()};['contractMarblePrice','contractMarbleMeters'].forEach(id=>$(id).oninput=contractMarbleCalc);['contractArea','contractMeterPrice','contractDownPayment'].forEach(id=>$(id).oninput=contractFinancialCalc);$('contractAccessoryRows').oninput=contractFinancialCalc;contractReset();renderContracts();
