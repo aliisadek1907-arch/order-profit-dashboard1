@@ -246,7 +246,7 @@ let cloudUser=null,cloudReady=false,cloudSaveTimer=null,cloudSaveQueue=Promise.r
 function cloudMessage(msg){$('authMessage').textContent=msg}
 function cloudStatus(msg){$('cloudStatus').textContent=msg}
 function localSnapshot(){
- const snapshot={orders,quotes,serviceInvoices,contracts};
+ const snapshot={orders,quotes,serviceInvoices,contracts,customServiceChoices:Array.isArray(serviceInvoiceChoices)?serviceInvoiceChoices:[]};
  localStorage.setItem('orderProfitDashboard',JSON.stringify(orders));
  localStorage.setItem('woodexQuotes',JSON.stringify(quotes));
  localStorage.setItem('woodexServiceInvoices',JSON.stringify(serviceInvoices));
@@ -290,6 +290,9 @@ async function startCloudSession(user){
  const cloudQuotes=Array.isArray(data?.data?.quotes)?data.data.quotes:[];
  const localQuotes=JSON.parse(localStorage.getItem('woodexQuotes')||'[]');
  const cloudServiceInvoices=Array.isArray(data?.data?.serviceInvoices)?data.data.serviceInvoices:[];
+ const cloudServiceChoices=Array.isArray(data?.data?.customServiceChoices)?data.data.customServiceChoices:[];
+ const localServiceChoices=JSON.parse(localStorage.getItem('woodexCustomServiceChoices')||'[]');
+ [...cloudServiceChoices,...(Array.isArray(localServiceChoices)?localServiceChoices:[])].forEach(v=>{const name=String(v||'').trim();if(name&&!serviceInvoiceChoices.includes(name))serviceInvoiceChoices.push(name)});
  const cloudContracts=Array.isArray(data?.data?.contracts)?data.data.contracts:[];const localContracts=JSON.parse(localStorage.getItem('woodexContracts')||'[]');const contractMap=new Map(cloudContracts.map(x=>[String(x.id),x]));localContracts.forEach(x=>{if(!contractMap.has(String(x.id)))contractMap.set(String(x.id),x)});contracts=[...contractMap.values()];
  const localServiceInvoices=JSON.parse(localStorage.getItem('woodexServiceInvoices')||'[]');
  const serviceInvoiceMap=new Map(cloudServiceInvoices.map(x=>[String(x.id),x]));localServiceInvoices.forEach(x=>{if(!serviceInvoiceMap.has(String(x.id)))serviceInvoiceMap.set(String(x.id),x)});serviceInvoices=[...serviceInvoiceMap.values()];
@@ -506,8 +509,11 @@ $('addContractAccessory').onclick=()=>{contractAddRow('contractAccessoryRows','a
 
 // Service invoices
 const serviceInvoiceChoices=["الألواح","تقطيع كونتر","تقطيع فايبر","لصق شريط","مفصلات","ليد بروفايل","فرشات","مفحار","تفريز مفصله","تجميع كبير","تجميع صغير","تجميع مطبخ","مسامير","ماده","تغليف","نقل"];
+try{const saved=JSON.parse(localStorage.getItem('woodexCustomServiceChoices')||'[]');if(Array.isArray(saved))saved.forEach(v=>{const name=String(v||'').trim();if(name&&!serviceInvoiceChoices.includes(name))serviceInvoiceChoices.push(name)})}catch(e){}
+function saveServiceChoices(){try{localStorage.setItem('woodexCustomServiceChoices',JSON.stringify(serviceInvoiceChoices))}catch(e){}scheduleCloudSave()}
+function addServiceChoice(){const name=prompt('اكتب اسم الخدمة الجديدة:');if(name===null)return '';const clean=name.trim();if(!clean){alert('اكتب اسمًا صحيحًا للخدمة.');return ''}if(!serviceInvoiceChoices.includes(clean)){serviceInvoiceChoices.push(clean);saveServiceChoices()}return clean}
 function serviceInvoiceNextNumber(){const y=new Date().getFullYear(),prefix='S-'+y+'-';const nums=serviceInvoices.filter(x=>(x.number||'').startsWith(prefix)).map(x=>Number((x.number||'').split('-').pop())||0);return prefix+String(Math.max(0,...nums)+1).padStart(4,'0')}
-function serviceInvoiceLineRows(items=[]){const rows=items.length?items:[{}];$('serviceInvoiceRows').innerHTML='<table class="quote-line-table"><thead><tr><th>البيان</th><th>العدد</th><th>السعر</th><th>الإجمالي</th><th></th></tr></thead><tbody>'+rows.map(x=>'<tr><td><select class="service-line-name line-name" style="min-width:170px;padding:7px;border:1px solid #d7deea;border-radius:7px;font:inherit"><option value="">اختر البيان</option>'+serviceInvoiceChoices.map(v=>'<option value="'+esc(v)+'" '+(x.name===v?'selected':'')+'>'+esc(v)+'</option>').join('')+'</select></td><td><input class="service-line-qty line-qty" type="number" min="0" step="any" placeholder="0" value="'+(x.qty??'')+'"></td><td><input class="service-line-price line-price" type="number" min="0" step=".01" placeholder="0" value="'+(x.price??'')+'"></td><td><input class="line-total" readonly value="'+money((Number(x.qty)||0)*(Number(x.price)||0))+'"></td><td><button type="button" class="quote-remove">حذف</button></td></tr>').join('')+'</tbody></table>';updateServiceInvoiceTotal()}
+function serviceInvoiceLineRows(items=[]){const rows=items.length?items:[{}];$('serviceInvoiceRows').innerHTML='<table class="quote-line-table"><thead><tr><th>البيان</th><th>العدد</th><th>السعر</th><th>الإجمالي</th><th></th></tr></thead><tbody>'+rows.map(x=>'<tr><td><select class="service-line-name line-name" style="min-width:170px;padding:7px;border:1px solid #d7deea;border-radius:7px;font:inherit"><option value="">اختر البيان</option>'+serviceInvoiceChoices.map(v=>'<option value="'+esc(v)+'" '+(x.name===v?'selected':'')+'>'+esc(v)+'</option>').join('')+'<option value="__add_new_service__">＋ إضافة خدمة جديدة...</option>'+'</select></td><td><input class="service-line-qty line-qty" type="number" min="0" step="any" placeholder="0" value="'+(x.qty??'')+'"></td><td><input class="service-line-price line-price" type="number" min="0" step=".01" placeholder="0" value="'+(x.price??'')+'"></td><td><input class="line-total" readonly value="'+money((Number(x.qty)||0)*(Number(x.price)||0))+'"></td><td><button type="button" class="quote-remove">حذف</button></td></tr>').join('')+'</tbody></table>';updateServiceInvoiceTotal()}
 function getServiceInvoiceLines(){return [...$('serviceInvoiceRows').querySelectorAll('tbody tr')].map(r=>({name:r.querySelector('.line-name').value,qty:Number(r.querySelector('.line-qty').value)||0,price:Number(r.querySelector('.line-price').value)||0})).filter(x=>x.name||x.qty||x.price)}
 function servicePhoneKey(v){let p=String(v||'').replace(/\D/g,'');if(p.startsWith('0020'))p=p.slice(2);if(p.startsWith('20')&&p.length===12)p=p.slice(2);return p}
 function serviceCustomerPreviousBalance(phone,excludeId=''){const key=servicePhoneKey(phone);if(!key)return 0;return Math.max(0,serviceInvoices.filter(x=>x.id!==excludeId&&servicePhoneKey(x.phone)===key).reduce((sum,x)=>sum+(Number(x.total)||0)-(Number(x.paid)||0),0))}
@@ -518,6 +524,7 @@ function serviceInvoicePrint(x){const rows=(x.items||[]).map((v,i)=>'<tr><td>'+(
 $('newServiceInvoiceBtn').onclick=()=>{resetServiceInvoiceForm();$('serviceInvoiceForm').classList.remove('hidden');$('serviceInvoiceForm').scrollIntoView({behavior:'smooth',block:'start'})};
 $('addServiceInvoiceLine').onclick=()=>{const a=getServiceInvoiceLines();a.push({});serviceInvoiceLineRows(a)};
 $('serviceInvoicePaid').oninput=updateServiceInvoiceTotal;$('serviceInvoicePhone').oninput=updateServiceInvoiceTotal;
+$('serviceInvoiceRows').onchange=e=>{if(e.target.matches('.service-line-name')&&e.target.value==='__add_new_service__'){const sel=e.target;const added=addServiceChoice();sel.innerHTML='<option value="">اختر البيان</option>'+serviceInvoiceChoices.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('')+'<option value="__add_new_service__">＋ إضافة خدمة جديدة...</option>';sel.value=added||''}};
 $('serviceInvoiceRows').oninput=e=>{if(e.target.matches('.line-qty,.line-price')){const tr=e.target.closest('tr');tr.querySelector('.line-total').value=money((Number(tr.querySelector('.line-qty').value)||0)*(Number(tr.querySelector('.line-price').value)||0));updateServiceInvoiceTotal()}};
 $('serviceInvoiceRows').onclick=e=>{const b=e.target.closest('.quote-remove');if(!b)return;b.closest('tr').remove();if(!$('serviceInvoiceRows').querySelector('tbody tr'))serviceInvoiceLineRows();updateServiceInvoiceTotal()};
 $('serviceInvoiceCancelBtn').onclick=resetServiceInvoiceForm;
