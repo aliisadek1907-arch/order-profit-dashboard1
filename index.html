@@ -242,17 +242,43 @@ function ensureCloudClient(){
 }
 try{initCloudClient();}catch(initError){cloudMessage('تعذر تهيئة الاتصال: '+initError.message);}
 window.addEventListener('error',e=>{const m=document.getElementById('authMessage');if(m)m.textContent='حدث خطأ في تشغيل الصفحة: '+(e.message||'خطأ JavaScript')});
-let cloudUser=null,cloudReady=false,cloudSaveTimer=null;
+let cloudUser=null,cloudReady=false,cloudSaveTimer=null,cloudSaveQueue=Promise.resolve(),cloudLastSavedAt=null;
 function cloudMessage(msg){$('authMessage').textContent=msg}
 function cloudStatus(msg){$('cloudStatus').textContent=msg}
-async function cloudSave(){
- if(!cloudUser||!cloudReady)return;
- cloudStatus('جاري حفظ التغييرات سحابيًا...');
- const {error}=await cloudClient.from('woodex_data').upsert({user_id:cloudUser.id,data:{orders,quotes,serviceInvoices,contracts},updated_at:new Date().toISOString()},{onConflict:'user_id'});
- if(error){cloudStatus('تعذر الحفظ السحابي: '+error.message);return}
- cloudStatus('تم حفظ البيانات سحابيًا');
+function localSnapshot(){
+ const snapshot={orders,quotes,serviceInvoices,contracts};
+ localStorage.setItem('orderProfitDashboard',JSON.stringify(orders));
+ localStorage.setItem('woodexQuotes',JSON.stringify(quotes));
+ localStorage.setItem('woodexServiceInvoices',JSON.stringify(serviceInvoices));
+ localStorage.setItem('woodexContracts',JSON.stringify(contracts));
+ return snapshot;
 }
-function scheduleCloudSave(){if(!cloudUser||!cloudReady)return;clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(cloudSave,700)}
+async function cloudSave(){
+ if(!cloudUser||!cloudReady||!cloudClient){cloudStatus('الحفظ السحابي غير متاح حاليًا؛ البيانات محفوظة محليًا فقط.');return false}
+ cloudSaveQueue=cloudSaveQueue.then(async()=>{
+  const userId=cloudUser?.id;
+  if(!userId||!cloudReady)return false;
+  let snapshot;
+  try{snapshot=localSnapshot()}catch(e){cloudStatus('تعذر الحفظ على الجهاز: '+e.message);return false}
+  cloudStatus('جاري حفظ التغييرات سحابيًا...');
+  const {error}=await cloudClient.from('woodex_data').upsert({user_id:userId,data:snapshot,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(error){cloudStatus('تعذر الحفظ السحابي: '+error.message+' — البيانات ما زالت على هذا الجهاز.');return false}
+  const {data:check,error:verifyError}=await cloudClient.from('woodex_data').select('data,updated_at').eq('user_id',userId).maybeSingle();
+  if(verifyError){cloudStatus('تم إرسال الحفظ لكن تعذر التحقق منه: '+verifyError.message);return false}
+  const saved=check?.data||{};
+  const counts={orders:(saved.orders||[]).length,quotes:(saved.quotes||[]).length,serviceInvoices:(saved.serviceInvoices||[]).length,contracts:(saved.contracts||[]).length};
+  const expected={orders:snapshot.orders.length,quotes:snapshot.quotes.length,serviceInvoices:snapshot.serviceInvoices.length,contracts:snapshot.contracts.length};
+  if(Object.keys(expected).some(k=>counts[k]!==expected[k])){
+   cloudStatus('تنبيه: لم تتطابق أعداد البيانات بعد الحفظ. لم يتم تأكيد اكتمال المزامنة.');
+   return false;
+  }
+  cloudLastSavedAt=check.updated_at||new Date().toISOString();
+  cloudStatus('تم حفظ البيانات سحابيًا والتحقق منها ✓');
+  return true;
+ }).catch(e=>{cloudStatus('فشل الحفظ السحابي: '+e.message);return false});
+ return cloudSaveQueue;
+}
+function scheduleCloudSave(){if(!cloudUser||!cloudReady){cloudStatus('التعديلات محفوظة محليًا؛ سجّل الدخول لتفعيل الحفظ السحابي.');return}clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(()=>cloudSave(),700)}
 async function startCloudSession(user){
  cloudUser=user;
  $('authPanel').classList.add('hidden');$('dashboardApp').classList.remove('hidden');$('cloudBar').classList.remove('hidden');
@@ -276,6 +302,7 @@ async function startCloudSession(user){
    // First login: upload the existing browser data rather than replacing it.
  }
  cloudReady=true;
+ try{localSnapshot()}catch(e){cloudStatus('تعذر حفظ نسخة محلية: '+e.message)}
  await cloudSave();
  render();
 }
@@ -457,15 +484,15 @@ $('contractForm').onsubmit=async e=>{
   renderContracts();
   contractReset();
   if(cloudUser&&cloudReady){
-   await cloudSave();
-   if($('cloudStatus').textContent.includes('تعذر الحفظ السحابي')){
-    alert('تم حفظ العقد على هذا الجهاز، لكن تعذر رفعه للسحابة. تحقق من حالة الاتصال ثم حاول المزامنة.');
+   const cloudOk=await cloudSave();
+   if(!cloudOk){
+    alert('العقد محفوظ على هذا الجهاز، لكن لم نتمكن من تأكيد حفظه سحابيًا. لا تغلق المتصفح قبل حل مشكلة المزامنة.');
     return;
    }
   }else{
-   cloudStatus('تم حفظ العقد على هذا الجهاز');
+   cloudStatus('العقد محفوظ على هذا الجهاز فقط — الحفظ السحابي غير متصل.');
   }
-  alert('تم حفظ العقد بنجاح.');
+  alert('تم حفظ العقد بنجاح وتم تأكيد المزامنة.');
  }catch(err){
   contracts=previous;
   try{localStorage.setItem('woodexContracts',JSON.stringify(contracts))}catch(e){}
