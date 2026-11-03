@@ -82,6 +82,34 @@ td{border-bottom-color:#eeeeea}
 .contract-empty{padding:12px;color:#858579;font-size:11px}
 @media print{.contract-document{max-width:none;margin:0}.contract-cover{border-radius:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.contract-finance-total,.contract-payment-cards,.contract-table th,.contract-topline,.contract-accent{print-color-adjust:exact;-webkit-print-color-adjust:exact}.contract-block{break-inside:avoid}}
 @media(max-width:600px){.contract-cover{padding:18px}.contract-logo{font-size:27px}.contract-doc-title h1{font-size:22px}.contract-document .contract-grid{grid-template-columns:1fr}.contract-sign-area{grid-template-columns:1fr}.contract-payment-cards{gap:6px}.contract-payment-cards>div{padding:9px 5px}}
+
+/* Box-based contract layout refinement */
+.contract-block{padding:17px 18px;background:#fff;border:1px solid #e4e4da;border-radius:12px;box-shadow:0 2px 8px #15151508}
+.contract-document .contract-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.contract-document .contract-field{display:flex;flex-direction:column;justify-content:center;min-height:58px;padding:9px 12px;border:1px solid #e5e5dc;border-right:4px solid #f1df32;border-radius:9px;background:linear-gradient(135deg,#fff 0%,#fafaf6 100%)}
+.contract-document .contract-field small{font-size:10px;color:#77776c;margin-bottom:5px}
+.contract-document .contract-field b{font-size:12px;line-height:1.6;color:#20211f}
+.contract-items-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.contract-item-card{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:13px 13px 12px 42px;border:1px solid #e5e5dc;border-radius:10px;background:#fbfbf7;break-inside:avoid}
+.contract-item-index{position:absolute;top:12px;left:12px;display:grid;place-items:center;width:23px;height:23px;border-radius:6px;background:#f1df32;font-size:10px;font-weight:900}
+.contract-item-name{grid-column:1/-1;font-size:12px;font-weight:800;padding-bottom:7px;border-bottom:1px solid #e9e9df}
+.contract-item-detail{display:flex;flex-direction:column;gap:3px}.contract-item-detail small{font-size:9px;color:#77776c}.contract-item-detail b{font-size:11px}
+.contract-subtitle{font-weight:800;font-size:12px;margin-bottom:9px}
+.contract-marble{padding:13px;margin-top:14px;border:1px solid #e5e5dc;border-radius:10px;background:#fbfbf7}
+.contract-payment-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.contract-payment-card{padding:13px 11px;border:1px solid #e5e5dc;border-radius:10px;background:#fbfbf7;text-align:center;break-inside:avoid}
+.contract-payment-top{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:8px;border-bottom:1px solid #e8e8df}
+.contract-payment-top span{font-size:10px;color:#66665c}.contract-payment-top b{background:#f1df32;border-radius:5px;padding:3px 8px;font-size:12px}
+.contract-payment-card>strong{display:block;font-size:17px;margin:10px 0 7px;color:#222}
+.contract-payment-date{font-size:10px;color:#5f6057;border:1px solid #e8e8df;border-radius:6px;padding:6px 4px;background:#fff}
+.contract-payment-desc{font-size:9px;color:#858579;margin-top:6px}
+.contract-terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.contract-term-card{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid #e6e6de;border-radius:8px;background:#fbfbf8;break-inside:avoid;font-size:10px;line-height:1.8}
+.contract-term-card>b{flex:0 0 24px;display:grid;place-items:center;height:24px;background:#f1df32;border-radius:6px;font-size:9px}
+.contract-term-card>span{flex:1}
+.contract-sign-area>div{padding:16px 12px;border:1px solid #e5e5dc;border-radius:10px;background:#fbfbf7}
+@media print{.contract-block,.contract-item-card,.contract-payment-card,.contract-term-card,.contract-document .contract-field{break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+@media(max-width:600px){.contract-document .contract-grid,.contract-items-grid,.contract-terms-grid{grid-template-columns:1fr}.contract-payment-cards{grid-template-columns:1fr}.contract-item-card{grid-template-columns:1fr 1fr}}
 </style></head><body><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <header class="brand-header"><div class="brand-lockup"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M12 12H37L83 58V88H58L12 42Z" fill="#f1df32"/><path d="M88 12H63L17 58V88H42L88 42Z" fill="#f1df32"/><path d="M12 12L88 88" stroke="#151515" stroke-width="5"/></svg></div><div class="brand-copy"><div class="brand-name">WOOD<span>EX</span></div><div class="brand-tag">Kitchens &amp; Dressing Rooms</div><h1>إدارة الأوردرات والأرباح</h1><div class="sub">متابعة التعاقدات والمبيعات والمصروفات</div></div></div><div class="currency-tag">جميع المبالغ بالجنيه المصري</div></header>
 
@@ -341,22 +369,23 @@ function contractFinancialCalc(){const area=(Number($('contractArea').value)||0)
 function contractReset(){$('contractForm').reset();$('contractEditId').value='';$('contractNumber').value=contractNextNumber();$('contractDate').value=new Date().toISOString().slice(0,10);$('contractTerms').value=defaultContractTerms;$('contractCompanySign').value='محمود مصطفى محمد';contractRenderRows();contractMarbleCalc();contractFinancialCalc();$('contractForm').classList.add('hidden')}
 function contractPrint(x){
  const f=(l,v)=>'<div class="contract-field"><small>'+esc(l)+'</small><b>'+esc(v||'—')+'</b></div>';
- const rows=(arr,cols)=>arr.length?arr.map(v=>'<tr>'+v.map(z=>'<td>'+z+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="'+cols+'" class="empty-row">لا توجد بيانات مسجلة</td></tr>';
  const accessories=(x.accessories||[]).filter(v=>v.some(z=>String(z||'').trim()));
- const accessoryRows=rows(accessories.map(v=>[esc(v[0]||'—'),money(v[1]),money(v[2])]),3);
- const paymentData=[{description:'دفعة التعاقد (60%)',amount:x.downPayment,date:x.downPaymentDate},...(x.payments||[])];
- const paymentRows=rows(paymentData.map((v,i)=>['<b>'+esc(v.description||('الدفعة '+(i+1)))+'</b>',money(v.amount),esc(v.date||'يحدد لاحقًا')]),3);
+ const accessoryCards=accessories.length?accessories.map((v,i)=>'<div class="contract-item-card"><span class="contract-item-index">'+String(i+1).padStart(2,'0')+'</span><div class="contract-item-name">'+esc(v[0]||'إكسسوار')+'</div><div class="contract-item-detail"><small>السعر</small><b>'+money(v[1])+'</b></div><div class="contract-item-detail"><small>الإجمالي</small><b>'+money(v[2])+'</b></div></div>').join(''):'<div class="contract-empty">لا توجد إكسسوارات مسجلة</div>';
+ const paymentData=[{description:'دفعة التعاقد (60%)',amount:x.downPayment,date:x.downPaymentDate,percent:'60%'},...(x.payments||[]).map((v,i)=>({...v,percent:i===0?'30%':'10%'}))];
+ const paymentCards=paymentData.map((v,i)=>'<div class="contract-payment-card"><div class="contract-payment-top"><span>الدفعة '+(i+1)+'</span><b>'+esc(v.percent||'')+'</b></div><strong>'+money(v.amount)+'</strong><div class="contract-payment-date">تاريخ الاستحقاق: '+esc(v.date||'يحدد لاحقًا')+'</div><div class="contract-payment-desc">'+esc(v.description||'')+'</div></div>').join('');
  const specFields=[['نوع المنتج / التصميم',x.product],['نوع الضلف',x.doors],['نوع العلبة الداخلية',x.cabinet],['لون الضلف العلوية',x.upperColor],['لون الضلف السفلية',x.lowerColor],['لون ضلف البلكار',x.pelmetColor],['ارتفاع الوحدة العلوية',x.upperHeight],['ارتفاع الوحدة السفلية',x.lowerHeight],['ارتفاع وحدة البلكار',x.pelmetHeight],['نوع المقبض',x.handle],['لون الوزرة',x.skirtingColor],['نوع المفصلات',x.hinges],['نوع الإضاءة',x.lighting],['مواصفات إضافية',x.specs]].filter(v=>String(v[1]||'').trim());
  const specHtml=specFields.length?specFields.map(v=>f(v[0],v[1])).join(''):'<div class="contract-empty">لم يتم تسجيل مواصفات فنية إضافية</div>';
+ const terms=String(x.terms||'').split(/\n+/).map(v=>v.trim()).filter(Boolean);
+ const termsHtml=terms.length?terms.map((v,i)=>'<div class="contract-term-card"><b>'+String(i+1).padStart(2,'0')+'</b><span>'+esc(v.replace(/^\d+\s*[-.)]\s*/,''))+'</span></div>').join(''):'<div class="contract-empty">لا توجد شروط مسجلة</div>';
  const total=Number(x.total)||0,down=Number(x.downPayment)||total*.6,second=total*.3,last=total*.1;
  const body='<div class="contract-document">'+
  '<header class="contract-cover"><div class="contract-brand"><div class="contract-logo">WOOD<span>EX</span></div><div class="contract-brandline">KITCHENS &amp; DRESSING ROOMS</div></div><div class="contract-doc-title"><div class="contract-eyebrow">CUSTOMER AGREEMENT</div><h1>عقد اتفاق</h1><div class="contract-number">رقم العقد <b>'+esc(x.number||'—')+'</b></div></div></header>'+
  '<div class="contract-accent"></div><div class="contract-topline"><span>عقد توريد وتصنيع وتركيب</span><span>تاريخ الإصدار: <b>'+esc(x.date||'—')+'</b></span></div>'+
  '<section class="contract-block"><div class="contract-section-title"><i>01</i><h2>بيانات العميل والتعاقد</h2></div><div class="contract-grid">'+f('اسم العميل',x.customer)+f('رقم الهاتف',x.phone)+f('عنوان التركيب',x.address)+f('نوع الطلب',x.type)+'</div></section>'+
  '<section class="contract-block"><div class="contract-section-title"><i>02</i><h2>المواصفات الفنية</h2></div><div class="contract-grid">'+specHtml+'</div></section>'+
- '<section class="contract-block"><div class="contract-section-title"><i>03</i><h2>الإكسسوارات والإضافات</h2></div><table class="contract-table"><thead><tr><th>نوع الإكسسوار</th><th>السعر</th><th>الإجمالي</th></tr></thead><tbody>'+accessoryRows+'</tbody></table><div class="contract-marble"><b>تفاصيل الرخام</b><div class="contract-grid">'+f('نوع الرخام',x.marbleType)+f('سعر المتر',x.marblePrice?money(x.marblePrice):'—')+f('عدد الأمتار',x.marbleMeters)+f('إجمالي الرخام',money(x.marbleTotal))+'</div></div></section>'+
- '<section class="contract-block"><div class="contract-section-title"><i>04</i><h2>القيمة المالية وجدول السداد</h2></div><div class="contract-finance-total"><small>إجمالي قيمة التعاقد</small><strong>'+money(total)+'</strong></div><div class="contract-payment-cards"><div><small>دفعة التعاقد</small><b>60%</b><strong>'+money(down)+'</strong></div><div><small>الدفعة الثانية</small><b>30%</b><strong>'+money(second)+'</strong></div><div><small>الدفعة الأخيرة</small><b>10%</b><strong>'+money(last)+'</strong></div></div><div class="contract-grid contract-finance-meta">'+f('إجمالي المساحة',x.area?x.area+' متر':'—')+f('سعر المتر',x.meterPrice?money(x.meterPrice):'—')+f('المتبقي بعد دفعة التعاقد',money(x.remaining))+'</div><table class="contract-table"><thead><tr><th>بيان الدفعة</th><th>قيمة الدفعة</th><th>تاريخ الاستحقاق</th></tr></thead><tbody>'+paymentRows+'</tbody></table></section>'+
- '<section class="contract-block"><div class="contract-section-title"><i>05</i><h2>الشروط والأحكام</h2></div><div class="contract-terms">'+esc(x.terms||'').replace(/\n/g,'<br>')+'</div></section>'+
+ '<section class="contract-block"><div class="contract-section-title"><i>03</i><h2>الإكسسوارات والإضافات</h2></div><div class="contract-items-grid">'+accessoryCards+'</div><div class="contract-marble"><div class="contract-subtitle">تفاصيل الرخام</div><div class="contract-grid">'+f('نوع الرخام',x.marbleType)+f('سعر المتر',x.marblePrice?money(x.marblePrice):'—')+f('عدد الأمتار',x.marbleMeters)+f('إجمالي الرخام',money(x.marbleTotal))+'</div></div></section>'+
+ '<section class="contract-block"><div class="contract-section-title"><i>04</i><h2>القيمة المالية وجدول السداد</h2></div><div class="contract-finance-total"><small>إجمالي قيمة التعاقد</small><strong>'+money(total)+'</strong></div><div class="contract-payment-cards">'+paymentCards+'</div><div class="contract-grid contract-finance-meta">'+f('إجمالي المساحة',x.area?x.area+' متر':'—')+f('سعر المتر',x.meterPrice?money(x.meterPrice):'—')+f('المتبقي بعد دفعة التعاقد',money(x.remaining))+'</div></section>'+
+ '<section class="contract-block"><div class="contract-section-title"><i>05</i><h2>الشروط والأحكام</h2></div><div class="contract-terms-grid">'+termsHtml+'</div></section>'+
  '<section class="contract-sign-area"><div><b>الطرف الأول – الشركة</b><strong>'+esc(x.companySign||'')+'</strong><span>التوقيع: __________________</span></div><div><b>الطرف الثاني – العميل</b><strong>'+esc(x.clientSign||x.customer||'')+'</strong><span>التوقيع: __________________</span></div></section>'+
  '<footer class="contract-footer"><b>WOOD<span>EX</span></b><span>شكرًا لثقتكم بنا</span><small>'+esc(x.number||'')+'</small></footer></div>';
  openPdfWindow('عقد '+(x.number||''),body)
